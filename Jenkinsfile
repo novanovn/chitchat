@@ -22,8 +22,7 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        sh 'npm i -save express'
-        sh 'npm i -save socket.io'
+        sh 'npm install'
       }
     }     
     stage('Test') {

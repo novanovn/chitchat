@@ -11,7 +11,7 @@ pipeline {
   agent {
     kubernetes {
       cloud 'k8s104'
-      defaultContainer 'jnlp-slave'
+      
       }
     }
 
@@ -25,15 +25,15 @@ pipeline {
       }
     }
 
-    stage('Install Node.js dependencies') {
+    stage('Install dependencies') {
       steps {
-        sh 'npm install'
+        sh 'npm i -save express'
+        sh 'npm i -save socket.io'
       }
-    }
-
-    stage('Test App') {
-        steps {
-            sh 'npm test'
+    }     
+    stage('Test') {
+      steps {
+         sh 'node index.js'
         }
     }
 

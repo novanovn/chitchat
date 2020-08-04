@@ -1,5 +1,5 @@
 pipeline {
- 
+
   environment {
     dockerregistry = 'https://registry.hub.docker.com'
     dockerhuburl = 'novanovn/chitchat'
@@ -7,31 +7,36 @@ pipeline {
     dockerhubcrd = '94992ee7-67a1-4a48-8086-d9a1d2d1ddb3'
     dockerImage = ''
   }
- 
-  agent any
- 
+
+  agent {
+    kubernetes {
+      cloud 'k8s104'
+      defaultContainer 'jnlp-slave'
+      }
+    }
+
   tools {nodejs "nodejs1017"}
- 
+
   stages {
- 
+
     stage('Clone git repo') {
       steps {
          git 'https://github.com/' + githuburl
       }
     }
- 
+
     stage('Install Node.js dependencies') {
       steps {
         sh 'npm install'
       }
     }
- 
+
     stage('Test App') {
         steps {
             sh 'npm test'
         }
     }
- 
+
     stage('Build image') {
       steps{
         script {
@@ -39,13 +44,13 @@ pipeline {
         }
       }
     }
- 
+
     stage('Test image') {
       steps {
         sh 'docker run -i ' + dockerhuburl + ':$BUILD_NUMBER npm test'
       }
     }
- 
+
     stage('Deploy image') {
       steps{
         script {
@@ -56,13 +61,13 @@ pipeline {
         }
       }
     }
- 
+
     stage('Remove image') {
       steps{
         sh "docker rmi $dockerhuburl:$BUILD_NUMBER"
       }
     }
- 
+
     stage('Deploy k8s') {
       steps {
         kubernetesDeploy(

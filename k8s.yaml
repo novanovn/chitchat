@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: chitchat
-        image: novanovn/chitchat:latest
+        image: $dockerhuburl:$BUILD_NUMBER
       dnsPolicy: "None"
       dnsConfig:
         nameservers:

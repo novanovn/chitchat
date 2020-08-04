@@ -4,12 +4,15 @@ kind: Deployment
 metadata:
   name: chitchat
 spec:
-  replicas: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chitchat
   template:
     metadata:
-      name: chitchat
       labels:
         app: chitchat
+
     spec:
       containers:
       - image: $dockerhuburl:$BUILD_NUMBER
@@ -39,3 +42,4 @@ spec:
   ports:
   - port: 8080
     targetPort: 4141
+EOF

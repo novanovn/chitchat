@@ -11,7 +11,7 @@ pipeline {
   agent {
     kubernetes {
       cloud 'k8s104'
-      defaultContainer 'jnlp'
+      defaultContainer 'jenkinsci/jnlp-slave:4.3-1'
       }
     }
 

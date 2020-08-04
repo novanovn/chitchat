@@ -8,12 +8,7 @@ pipeline {
     dockerImage = ''
   }
 
-  agent {
-    kubernetes {
-      cloud 'k8s104'
-      
-      }
-    }
+  agent any
 
   tools {nodejs "nodejs1017"}
 

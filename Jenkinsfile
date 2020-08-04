@@ -65,7 +65,7 @@ pipeline {
     stage('Deploy k8s') {
       steps {
         kubernetesDeploy(
-          kubeconfigId: '534dde19-d90a-4049-83b3-c1c391365c12',
+          kubeconfigId: 'c3de0169-a9fd-496f-824e-d8addfb3c229',
           configs: 'k8s.yaml',
           enableConfigSubstitution: true
         )

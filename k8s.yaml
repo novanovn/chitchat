@@ -12,11 +12,10 @@ spec:
     metadata:
       labels:
         app: chitchat
-
     spec:
       containers:
-      - image: $dockerhuburl:$BUILD_NUMBER
-        name: nodejs
+      - name: chitchat
+        image: novanovn/chitchat:latest
       dnsPolicy: "None"
       dnsConfig:
         nameservers:
@@ -28,18 +27,19 @@ spec:
         options:
           - name: ndots
             value: "5"
+      imagePullSecrets:
+        - name: registrypullsecret-ilcs
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: loadbalancer
+  name: chitchat-svc
 spec:
-  type: LoadBalancer
-  externalIPs:
-  - 10.8.3.174
   selector:
     app: chitchat
   ports:
-  - port: 8080
-    targetPort: 4141
-EOF
+    - protocol: TCP
+      port: 8080
+      targetPort: 4141
+      nodePort: 30005
+  type: LoadBalancer
